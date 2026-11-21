@@ -1,0 +1,22 @@
+
+{
+  "name": "kok-bisa-3d-education",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render src/index.ts VenusEducation out/venus.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.0",
+    "@remotion/renderer": "4.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "5.7.2"
+  }
+}
