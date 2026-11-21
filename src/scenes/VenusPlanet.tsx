@@ -6,186 +6,181 @@ export const VenusPlanet: React.FC = () => {
   const frame = useCurrentFrame();
 
   const floatY = Math.sin(frame / 18) * 18;
-  const rotation = frame * 0.35;
+  const rotate = Math.sin(frame / 40) * 4;
 
   return (
     <div
       style={{
-        width: 600,
-        height: 600,
+        width: 520,
+        height: 520,
+        borderRadius: "50%",
         position: "relative",
-        transform: `translateY(${floatY}px)`,
+        overflow: "hidden",
+        transform: `translateY(${floatY}px) rotate(${rotate}deg)`,
+        background:
+          "radial-gradient(circle at 32% 28%, #FFE8A3 0%, #F7BE67 28%, #E58A43 58%, #A94D29 100%)",
+        boxShadow:
+          "inset -45px -35px 90px rgba(100,35,10,0.45), 0 0 80px rgba(255,190,90,0.3)",
       }}
     >
-      {/* Planet shadow */}
+      {/* Lapisan awan Venus */}
       <div
         style={{
           position: "absolute",
-          width: 400,
-          height: 70,
-          background: "rgba(120,70,30,0.18)",
+          width: 650,
+          height: 110,
           borderRadius: "50%",
-          filter: "blur(25px)",
-          bottom: 15,
+          top: 85,
+          left: -70,
+          background:
+            "linear-gradient(180deg, rgba(255,244,200,0.8), rgba(255,215,140,0.15))",
+          transform: `rotate(${frame * 0.25}deg)`,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          width: 620,
+          height: 90,
+          borderRadius: "50%",
+          top: 230,
+          left: -45,
+          background:
+            "linear-gradient(180deg, rgba(255,220,145,0.7), rgba(210,120,65,0.15))",
+          transform: `rotate(${-frame * 0.18}deg)`,
+        }}
+      />
+
+      {/* Mata kiri */}
+      <div
+        style={{
+          position: "absolute",
+          width: 78,
+          height: 105,
+          background: "#FFFFFF",
+          borderRadius: "50%",
+          top: 175,
+          left: 145,
+          transform: "rotate(-8deg)",
+          boxShadow: "0 5px 10px rgba(100,50,10,0.15)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            width: 40,
+            height: 55,
+            background: "#55311C",
+            borderRadius: "50%",
+            top: 32,
+            left: 24,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            width: 15,
+            height: 15,
+            background: "#FFFFFF",
+            borderRadius: "50%",
+            top: 40,
+            left: 34,
+          }}
+        />
+      </div>
+
+      {/* Mata kanan */}
+      <div
+        style={{
+          position: "absolute",
+          width: 78,
+          height: 105,
+          background: "#FFFFFF",
+          borderRadius: "50%",
+          top: 175,
+          right: 145,
+          transform: "rotate(8deg)",
+          boxShadow: "0 5px 10px rgba(100,50,10,0.15)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            width: 40,
+            height: 55,
+            background: "#55301B",
+            borderRadius: "50%",
+            top: 32,
+            left: 18,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            width: 15,
+            height: 15,
+            background: "#FFFFFF",
+            borderRadius: "50%",
+            top: 40,
+            left: 28,
+          }}
+        />
+      </div>
+
+      {/* Pipi */}
+      <div
+        style={{
+          position: "absolute",
+          width: 65,
+          height: 38,
+          borderRadius: "50%",
+          background: "rgba(255,115,95,0.4)",
+          top: 300,
           left: 100,
         }}
       />
 
-      {/* Main planet */}
       <div
         style={{
-          width: 440,
-          height: 440,
-          borderRadius: "50%",
           position: "absolute",
-          left: 80,
-          top: 60,
-          overflow: "hidden",
-          background:
-            "radial-gradient(circle at 30% 25%, #FFF1B8 0%, #FFD36A 22%, #FF9B42 55%, #D85A29 82%, #A93E21 100%)",
-          boxShadow:
-            "inset -35px -30px 70px rgba(120,45,15,0.35), 0 20px 60px rgba(255,145,50,0.25)",
+          width: 65,
+          height: 38,
+          borderRadius: "50%",
+          background: "rgba(255,115,95,0.4)",
+          top: 300,
+          right: 100,
         }}
-      >
-        {/* Venus cloud bands */}
-        <div
-          style={{
-            position: "absolute",
-            width: 600,
-            height: 150,
-            top: 80,
-            left: -80,
-            borderRadius: "50%",
-            background:
-              "linear-gradient(180deg, transparent, rgba(255,245,190,0.45), rgba(255,180,90,0.2), transparent)",
-            transform: `rotate(${rotation}deg)`,
-          }}
-        />
+      />
 
-        <div
-          style={{
-            position: "absolute",
-            width: 550,
-            height: 120,
-            top: 230,
-            left: -50,
-            borderRadius: "50%",
-            background:
-              "linear-gradient(180deg, transparent, rgba(255,225,150,0.5), transparent)",
-            transform: `rotate(${-rotation * 0.6}deg)`,
-          }}
-        />
+      {/* Mulut tersenyum */}
+      <div
+        style={{
+          position: "absolute",
+          width: 95,
+          height: 48,
+          borderBottom: "12px solid #74351D",
+          borderRadius: "0 0 70px 70px",
+          top: 315,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      />
 
-        {/* Left eye */}
-        <div
-          style={{
-            position: "absolute",
-            width: 48,
-            height: 65,
-            borderRadius: "50%",
-            background: "#5A351D",
-            top: 165,
-            left: 135,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              width: 17,
-              height: 20,
-              borderRadius: "50%",
-              background: "white",
-              top: 10,
-              left: 9,
-            }}
-          />
-        </div>
-
-        {/* Right eye */}
-        <div
-          style={{
-            position: "absolute",
-            width: 48,
-            height: 65,
-            borderRadius: "50%",
-            background: "#5A351D",
-            top: 165,
-            right: 135,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              width: 17,
-              height: 20,
-              borderRadius: "50%",
-              background: "white",
-              top: 10,
-              left: 9,
-            }}
-          />
-        </div>
-
-        {/* Cheeks */}
-        <div
-          style={{
-            position: "absolute",
-            width: 55,
-            height: 30,
-            borderRadius: "50%",
-            background: "rgba(255,110,95,0.35)",
-            top: 245,
-            left: 90,
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            width: 55,
-            height: 30,
-            borderRadius: "50%",
-            background: "rgba(255,110,95,0.35)",
-            top: 245,
-            right: 90,
-          }}
-        />
-
-        {/* Smile */}
-        <svg
-          width="100"
-          height="60"
-          viewBox="0 0 100 60"
-          style={{
-            position: "absolute",
-            left: 170,
-            top: 245,
-          }}
-        >
-          <path
-            d="M 10 10 Q 50 55 90 10"
-            fill="none"
-            stroke="#7A351E"
-            strokeWidth="10"
-            strokeLinecap="round"
-          />
-        </svg>
-
-        {/* Highlight */}
-        <div
-          style={{
-            position: "absolute",
-            width: 100,
-            height: 40,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.25)",
-            top: 60,
-            left: 80,
-            transform: "rotate(-35deg)",
-            filter: "blur(10px)",
-          }}
-        />
-      </div>
+      {/* Kilau planet */}
+      <div
+        style={{
+          position: "absolute",
+          width: 90,
+          height: 180,
+          borderRadius: "50%",
+          background:
+            "linear-gradient(90deg, rgba(255,255,255,0.25), transparent)",
+          top: 70,
+          left: 45,
+          transform: "rotate(25deg)",
+        }}
+      />
     </div>
   );
 };
