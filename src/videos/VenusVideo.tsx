@@ -2,50 +2,35 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Sequence,
   useCurrentFrame,
   interpolate,
 } from "remotion";
 
-export const VenusVideo: React.FC = () => {
+import { VenusScene } from "../scenes/VenusScene";
+
+const Intro: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const opacity = interpolate(
-    frame,
-    [0, 15, 110, 125],
-    [0, 1, 1, 0],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    }
-  );
+  const scale = interpolate(frame, [0, 60], [0.8, 1], {
+    extrapolateRight: "clamp",
+  });
 
-  const zoom = interpolate(
-    frame,
-    [0, 900],
-    [1, 1.15],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    }
-  );
+  const opacity = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#80D8FF",
+        background:
+          "linear-gradient(180deg, #79D9FF, #B5EEFF, #FFF0C2)",
+        justifyContent: "center",
+        alignItems: "center",
         fontFamily: "Arial, sans-serif",
-        overflow: "hidden",
       }}
     >
-      {/* Background sky */}
-      <AbsoluteFill
-        style={{
-          background:
-            "linear-gradient(180deg, #80D8FF, #B5EDFF, #FFF0C2)",
-        }}
-      />
-
-      {/* Cartoon Sun */}
+      {/* Sun */}
       <div
         style={{
           position: "absolute",
@@ -53,28 +38,27 @@ export const VenusVideo: React.FC = () => {
           height: 280,
           borderRadius: "50%",
           background: "#FFD95A",
-          top: 180,
+          top: 150,
           right: -80,
           boxShadow: "0 0 100px #FFE98A",
         }}
       />
 
       {/* Intro text */}
-      <AbsoluteFill
+      <div
         style={{
-          justifyContent: "center",
-          alignItems: "center",
           opacity,
-          transform: `scale(${zoom})`,
+          transform: `scale(${scale})`,
+          textAlign: "center",
+          padding: 40,
         }}
       >
         <div
           style={{
-            fontSize: 44,
+            fontSize: 42,
+            color: "#FFFFFF",
             fontWeight: 900,
-            color: "white",
-            textAlign: "center",
-            textShadow: "0 5px 15px rgba(0,0,0,0.15)",
+            marginBottom: 30,
           }}
         >
           KOK BISA?
@@ -82,13 +66,10 @@ export const VenusVideo: React.FC = () => {
 
         <div
           style={{
-            marginTop: 30,
-            fontSize: 65,
+            fontSize: 68,
             fontWeight: 900,
             color: "#FF7B36",
-            textAlign: "center",
             lineHeight: 1.2,
-            padding: 40,
           }}
         >
           1 HARI DI VENUS
@@ -97,7 +78,108 @@ export const VenusVideo: React.FC = () => {
           <br />
           1 TAHUN?!
         </div>
-      </AbsoluteFill>
+      </div>
+
+      {/* Stars */}
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+            background: "white",
+            top: `${10 + (i * 7) % 80}%`,
+            left: `${(i * 37) % 100}%`,
+            opacity: 0.6,
+          }}
+        />
+      )}
+    </AbsoluteFill>
+  );
+};
+
+const Outro: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  const opacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <AbsoluteFill
+      style={{
+        background:
+          "linear-gradient(180deg, #FFD66B, #FFAA62, #FF806B)",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Arial, sans-serif",
+        opacity,
+        padding: 60,
+      }}
+    >
+      <div
+        style={{
+          fontSize: 62,
+          fontWeight: 900,
+          color: "white",
+          textAlign: "center",
+          lineHeight: 1.2,
+        }}
+      >
+        JADI...
+        <br />
+        1 HARI VENUS
+        <br />
+        = 243 HARI BUMI!
+      </div>
+
+      <div
+        style={{
+          marginTop: 50,
+          fontSize: 34,
+          fontWeight: 700,
+          color: "#8C482B",
+          textAlign: "center",
+        }}
+      >
+        Sementara 1 tahunnya
+        <br />
+        hanya 225 hari Bumi!
+      </div>
+
+      <div
+        style={{
+          marginTop: 80,
+          fontSize: 42,
+          fontWeight: 900,
+          color: "white",
+        }}
+      >
+        KOK BISA? 🌍
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+export const VenusVideo: React.FC = () => {
+  return (
+    <AbsoluteFill>
+      {/* Scene 1: Opening */}
+      <Sequence from={0} durationInFrames={150}>
+        <Intro />
+      </Sequence>
+
+      {/* Scene 2: Venus character */}
+      <Sequence from={150} durationInFrames={300}>
+        <VenusScene />
+      </Sequence>
+
+      {/* Scene 3: Educational closing */}
+      <Sequence from={450} durationInFrames={450}>
+        <Outro />
+      </Sequence>
     </AbsoluteFill>
   );
 };
