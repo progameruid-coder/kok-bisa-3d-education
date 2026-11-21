@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   AbsoluteFill,
@@ -10,7 +11,11 @@ import { VenusPlanet } from "../scenes/VenusPlanet";
 const Intro: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const scale = interpolate(frame, [0, 40, 100], [0.5, 1.15, 1], {
+  const scale = interpolate(frame, [0, 35, 100], [0.7, 1.12, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  const opacity = interpolate(frame, [0, 15], [0, 1], {
     extrapolateRight: "clamp",
   });
 
@@ -26,11 +31,12 @@ const Intro: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 62,
+          opacity,
+          transform: `scale(${scale})`,
+          fontSize: 68,
           fontWeight: 900,
           textAlign: "center",
-          transform: `scale(${scale})`,
-          lineHeight: 1.2,
+          lineHeight: 1.25,
         }}
       >
         SATU HARI...
@@ -40,8 +46,17 @@ const Intro: React.FC = () => {
         DARI SATU TAHUN?!
       </div>
 
-      <div style={{ position: "absolute", bottom: 180, fontSize: 34 }}>
-        Kok bisa? 🤯
+      <div
+        style={{
+          position: "absolute",
+          bottom: 230,
+          fontSize: 38,
+          fontWeight: 700,
+          color: "#FFFFFF",
+          opacity,
+        }}
+      >
+        KOK BISA? 🤯
       </div>
     </AbsoluteFill>
   );
@@ -50,42 +65,53 @@ const Intro: React.FC = () => {
 const VenusFacts: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const factIndex =
-    frame < 360
-      ? 0
-      : frame < 720
-      ? 1
-      : frame < 960
-      ? 2
-      : 3;
-
   const facts = [
     {
       number: "225 HARI",
+      label: "SATU TAHUN DI VENUS",
       text: "Venus mengelilingi Matahari dalam 225 hari Bumi.",
     },
     {
       number: "243 HARI",
-      text: "Venus berputar pada porosnya dalam sekitar 243 hari.",
+      label: "ROTASI VENUS",
+      text: "Venus membutuhkan sekitar 243 hari Bumi untuk berputar sekali pada porosnya.",
     },
     {
-      number: "ARAHNYA TERBALIK!",
-      text: "Venus berotasi berlawanan arah dengan kebanyakan planet.",
+      number: "ARAH TERBALIK!",
+      label: "VENUS BERBEDA",
+      text: "Venus berputar berlawanan arah dengan kebanyakan planet di tata surya.",
     },
     {
       number: "117 HARI",
-      text: "Satu siang ke siang berikutnya di Venus sekitar 117 hari Bumi.",
+      label: "SATU HARI MATAHARI",
+      text: "Dari satu tengah hari ke tengah hari berikutnya di Venus berlangsung sekitar 117 hari Bumi.",
     },
   ];
 
-  const current = facts[factIndex];
+  const starts = [0, 360, 720, 960];
 
-  const opacity = interpolate(
-    frame % 360,
-    [0, 20, 340, 359],
-    [0, 1, 1, 0],
-    { extrapolateRight: "clamp" }
-  );
+  const factIndex =
+    frame < 360 ? 0 :
+    frame < 720 ? 1 :
+    frame < 960 ? 2 : 3;
+
+  const current = facts[factIndex];
+  const progress = frame - starts[factIndex];
+
+  const opacity = interpolate(progress, [0, 12, 320, 350], [0, 1, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const slideY = interpolate(progress, [0, 18], [65, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const pop = interpolate(progress, [0, 12, 24], [0.8, 1.12, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill
@@ -98,22 +124,23 @@ const VenusFacts: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 140,
+          top: 150,
           left: 0,
           right: 0,
           textAlign: "center",
-          fontSize: 38,
-          fontWeight: 800,
+          fontSize: 40,
+          fontWeight: 900,
           color: "#FFD66B",
+          letterSpacing: 3,
         }}
       >
-        KENALAN DENGAN VENUS
+        MISTERI PLANET VENUS
       </div>
 
       <div
         style={{
           position: "absolute",
-          top: 340,
+          top: 330,
           left: 0,
           right: 0,
           display: "flex",
@@ -127,23 +154,38 @@ const VenusFacts: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 230,
+          bottom: 210,
           left: 55,
           right: 55,
-          textAlign: "center",
           opacity,
-          background: "rgba(18, 10, 40, 0.88)",
-          border: "2px solid rgba(255, 214, 107, 0.65)",
-          borderRadius: 35,
-          padding: "38px 28px",
+          transform: `translateY(${slideY}px) scale(${pop})`,
+          background: "rgba(18, 10, 40, 0.94)",
+          border: "3px solid rgba(255, 214, 107, 0.8)",
+          borderRadius: 40,
+          padding: "42px 30px",
+          textAlign: "center",
+          boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
         }}
       >
         <div
           style={{
-            fontSize: 58,
+            fontSize: 28,
+            fontWeight: 800,
+            color: "#FFFFFF",
+            letterSpacing: 3,
+            marginBottom: 18,
+          }}
+        >
+          {current.label}
+        </div>
+
+        <div
+          style={{
+            fontSize: 66,
             fontWeight: 900,
             color: "#FFD66B",
-            marginBottom: 20,
+            marginBottom: 25,
+            lineHeight: 1.15,
           }}
         >
           {current.number}
@@ -154,6 +196,7 @@ const VenusFacts: React.FC = () => {
             fontSize: 34,
             fontWeight: 600,
             lineHeight: 1.4,
+            color: "#FFFFFF",
           }}
         >
           {current.text}
@@ -166,7 +209,11 @@ const VenusFacts: React.FC = () => {
 const Outro: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const opacity = interpolate(frame, [0, 20, 100], [0, 1, 1], {
+  const opacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  const scale = interpolate(frame, [0, 30], [0.8, 1], {
     extrapolateRight: "clamp",
   });
 
@@ -183,14 +230,27 @@ const Outro: React.FC = () => {
         padding: 50,
       }}
     >
-      <div style={{ fontSize: 62, fontWeight: 900, lineHeight: 1.3 }}>
-        ALAM SEMESTA
-        <br />
-        <span style={{ color: "#FFD66B" }}>PENUH KEJUTAN!</span>
-      </div>
+      <div style={{ transform: `scale(${scale})` }}>
+        <div style={{ fontSize: 66, fontWeight: 900, lineHeight: 1.3 }}>
+          ALAM SEMESTA
+          <br />
+          <span style={{ color: "#FFD66B" }}>PENUH KEJUTAN!</span>
+        </div>
 
-      <div style={{ fontSize: 36, marginTop: 50 }}>
-        Follow untuk fakta unik lainnya 🚀
+        <div style={{ fontSize: 38, marginTop: 60 }}>
+          Masih banyak yang belum kita tahu...
+        </div>
+
+        <div
+          style={{
+            fontSize: 36,
+            fontWeight: 800,
+            color: "#FFD66B",
+            marginTop: 80,
+          }}
+        >
+          FOLLOW KOK BISA? 🚀
+        </div>
       </div>
     </AbsoluteFill>
   );
