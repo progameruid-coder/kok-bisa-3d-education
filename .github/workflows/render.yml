@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Remotion browser
-        run: npx remotion browser install
+      - name: Ensure Remotion browser
+        run: npx remotion browser ensure
 
       - name: Render Venus video
         run: npx remotion render src/index.ts VenusEducation out/venus.mp4
